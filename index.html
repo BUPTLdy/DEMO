@@ -1,1 +1,1225 @@
-hello world.
+<html>
+  <head>
+        <meta charset="utf-8">
+
+        <title>新闻地图可视化</title>
+  </head>
+<style>
+path {
+  stroke: black;
+  stroke-width: 0.25px;
+  fill:#e5f5f9;
+}
+
+
+.node circle {
+  //fill: #2ca25f;
+  //stroke: #000;
+  //stroke-width: 1.5px;
+}
+
+.node text {
+  display: none;
+  font: 20px sans-serif;
+}
+
+.node:hover circle {
+  fill: #de2d26;
+}
+
+.node:hover text {
+  display: inline;
+}
+
+.cell {
+  fill: none;
+  pointer-events: all;
+}
+
+</style>
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script>
+	var width  = 1366;
+	var height = 768;
+
+	var svg = d3.select("body").append("svg")
+	    .attr("width", width)
+	    .attr("height", height)
+	    .append("g")
+	    .attr("transform", "translate(0,0)");
+
+	var projection = d3.geo.mercator()
+						.center([107, 31])
+						.scale(700)
+    				.translate([width/2, height/2]);
+
+
+	var path = d3.geo.path()
+					.projection(projection);
+///////////////////////////////////////////bin/
+var 青海 =[96.5122866869,35.12781926];
+var 青海 =projection(青海);
+var 河南 =[114.130772484,34.00715756];
+var 河南 =projection(河南);
+var 山东 =[118.354817653,36.2612648184];
+var 山东 =projection(山东);
+var 四川 =[102.949271175,30.5767946693];
+var 四川 =projection(四川);
+var 江苏 =[119.318852298,32.8623450237];
+var 江苏 =projection(江苏);
+var 贵州 =[106.830684609,26.9347649532];
+var 贵州 =projection(贵州);
+var 新疆 =[84.0508777647,40.9888622748];
+var 新疆 =projection(新疆);
+var 福建 =[119.130511227,25.8656822433];
+var 福建 =projection(福建);
+var 浙江 =[121.178035794,29.1420460709];
+var 浙江 =projection(浙江);
+var 湖北 =[112.023681059,30.9660678236];
+var 湖北 =projection(湖北);
+var 天津 =[117.342341597,39.3956684132];
+var 天津 =projection(天津);
+var 江西 =[115.757786795,27.4730886332];
+var 江西 =projection(江西);
+var 海南 =[109.801360121,19.2952650354];
+var 海南 =projection(海南);
+var 黑龙江 =[127.572601322,48.2120846548];
+var 黑龙江 =projection(黑龙江);
+var 广东 =[112.481526672,22.1459918751];
+var 广东 =projection(广东);
+var 云南 =[101.704715842,25.3749755312];
+var 云南 =projection(云南);
+var 北京 =[116.488041841,40.1846450033];
+var 北京 =projection(北京);
+var 台湾 =[121.055218502,23.7734105732];
+var 台湾 =projection(台湾);
+var 澳门 =[113.551118588,22.1664862306];
+var 澳门 =projection(澳门);
+var 广西 =[108.575546534,24.0476964636];
+var 广西 =projection(广西);
+var 陕西 =[108.785763995,35.2833650657];
+var 陕西 =projection(陕西);
+var 甘肃 =[102.405371258,36.7408270494];
+var 甘肃 =projection(甘肃);
+var 河北 =[117.248227902,39.5157035989];
+var 河北 =projection(河北);
+var 宁夏 =[106.240523309,37.1988442176];
+var 宁夏 =projection(宁夏);
+var 重庆 =[107.932783094,29.9640253173];
+var 重庆 =projection(重庆);
+var 吉林 =[126.461725357,43.6951342799];
+var 吉林 =projection(吉林);
+var 湖南 =[111.61743564,27.196817359];
+var 湖南 =projection(湖南);
+var 内蒙古 =[114.662222041,44.0302210787];
+var 内蒙古 =projection(内蒙古);
+var 安徽 =[117.24811563,31.9073359926];
+var 安徽 =projection(安徽);
+var 香港 =[114.072660759,22.3587547873];
+var 香港 =projection(香港);
+var 上海 =[121.483260344,31.3475640644];
+var 上海 =projection(上海);
+var 山西 =[112.479113843,37.8602284333];
+var 山西 =projection(山西);
+var 西藏 =[89.2391710624,31.2982732917];
+var 西藏 =projection(西藏);
+var 辽宁 =[121.787531219,40.2509580202];
+var 辽宁 =projection(辽宁);
+/////////////////////////////////////////////
+
+
+
+	var color = d3.scale.category20();
+
+
+	d3.json("china.geojson", function(error, root) {
+
+		if (error)
+			return console.error(error);
+		console.log(root.features);
+
+		svg.selectAll("path")
+			.data( root.features )
+			.enter()
+			.append("path")
+			.attr("stroke","#000")
+			.attr("stroke-width",1)
+			.attr("d", path );
+
+
+
+              var nodes = [
+                {name:"青海",x:青海[0],y:青海[1],fixed:true,"group":1},
+                {name:"河南",x:河南[0],y:河南[1],fixed:true,"group":1},
+                {name:"山东",x:山东[0],y:山东[1],fixed:true,"group":1},
+                {name:"四川",x:四川[0],y:四川[1],fixed:true,"group":1},
+                {name:"江苏",x:江苏[0],y:江苏[1],fixed:true,"group":1},
+                {name:"贵州",x:贵州[0],y:贵州[1],fixed:true,"group":1},
+                {name:"新疆",x:新疆[0],y:新疆[1],fixed:true,"group":1},
+                {name:"福建",x:福建[0],y:福建[1],fixed:true,"group":1},
+                {name:"浙江",x:浙江[0],y:浙江[1],fixed:true,"group":1},
+                {name:"湖北",x:湖北[0],y:湖北[1],fixed:true,"group":1},
+                {name:"天津",x:天津[0],y:天津[1],fixed:true,"group":1},
+                {name:"江西",x:江西[0],y:江西[1],fixed:true,"group":1},
+                {name:"海南",x:海南[0],y:海南[1],fixed:true,"group":1},
+                {name:"黑龙江",x:黑龙江[0],y:黑龙江[1],fixed:true,"group":1},
+                {name:"广东",x:广东[0],y:广东[1],fixed:true,"group":1},
+                {name:"云南",x:云南[0],y:云南[1],fixed:true,"group":1},
+                {name:"北京",x:北京[0],y:北京[1],fixed:true,"group":1},
+                {name:"台湾",x:台湾[0],y:台湾[1],fixed:true,"group":1},
+                {name:"澳门",x:澳门[0],y:澳门[1],fixed:true,"group":1},
+                {name:"广西",x:广西[0],y:广西[1],fixed:true,"group":1},
+                {name:"陕西",x:陕西[0],y:陕西[1],fixed:true,"group":1},
+                {name:"甘肃",x:甘肃[0],y:甘肃[1],fixed:true,"group":1},
+                {name:"河北",x:河北[0],y:河北[1],fixed:true,"group":1},
+                {name:"宁夏",x:宁夏[0],y:宁夏[1],fixed:true,"group":1},
+                {name:"重庆",x:重庆[0],y:重庆[1],fixed:true,"group":1},
+                {name:"吉林",x:吉林[0],y:吉林[1],fixed:true,"group":1},
+                {name:"湖南",x:湖南[0],y:湖南[1],fixed:true,"group":1},
+                {name:"内蒙古",x:内蒙古[0],y:内蒙古[1],fixed:true,"group":1},
+                {name:"安徽",x:安徽[0],y:安徽[1],fixed:true,"group":1},
+                {name:"香港",x:香港[0],y:香港[1],fixed:true,"group":1},
+                {name:"上海",x:上海[0],y:上海[1],fixed:true,"group":1},
+                {name:"山西",x:山西[0],y:山西[1],fixed:true,"group":1},
+                {name:"西藏",x:西藏[0],y:西藏[1],fixed:true,"group":1},
+                {name:"辽宁",x:辽宁[0],y:辽宁[1],fixed:true,"group":1},
+
+                {name:"青海",x:青海[0],y:青海[1],fixed:true,"group":1},
+                {name:"河南",x:河南[0],y:河南[1],fixed:true,"group":1},
+                {name:"山东",x:山东[0],y:山东[1],fixed:true,"group":1},
+                {name:"四川",x:四川[0],y:四川[1],fixed:true,"group":1},
+                {name:"江苏",x:江苏[0],y:江苏[1],fixed:true,"group":1},
+                {name:"贵州",x:贵州[0],y:贵州[1],fixed:true,"group":1},
+                {name:"新疆",x:新疆[0],y:新疆[1],fixed:true,"group":1},
+                {name:"福建",x:福建[0],y:福建[1],fixed:true,"group":1},
+                {name:"浙江",x:浙江[0],y:浙江[1],fixed:true,"group":1},
+                {name:"湖北",x:湖北[0],y:湖北[1],fixed:true,"group":1},
+                {name:"天津",x:天津[0],y:天津[1],fixed:true,"group":1},
+                {name:"江西",x:江西[0],y:江西[1],fixed:true,"group":1},
+                {name:"海南",x:海南[0],y:海南[1],fixed:true,"group":1},
+                {name:"黑龙江",x:黑龙江[0],y:黑龙江[1],fixed:true,"group":1},
+                {name:"广东",x:广东[0],y:广东[1],fixed:true,"group":1},
+                {name:"云南",x:云南[0],y:云南[1],fixed:true,"group":1},
+                {name:"北京",x:北京[0],y:北京[1],fixed:true,"group":1},
+                {name:"台湾",x:台湾[0],y:台湾[1],fixed:true,"group":1},
+                {name:"澳门",x:澳门[0],y:澳门[1],fixed:true,"group":1},
+                {name:"广西",x:广西[0],y:广西[1],fixed:true,"group":1},
+                {name:"陕西",x:陕西[0],y:陕西[1],fixed:true,"group":1},
+                {name:"甘肃",x:甘肃[0],y:甘肃[1],fixed:true,"group":1},
+                {name:"河北",x:河北[0],y:河北[1],fixed:true,"group":1},
+                {name:"宁夏",x:宁夏[0],y:宁夏[1],fixed:true,"group":1},
+                {name:"重庆",x:重庆[0],y:重庆[1],fixed:true,"group":1},
+                {name:"吉林",x:吉林[0],y:吉林[1],fixed:true,"group":1},
+                {name:"湖南",x:湖南[0],y:湖南[1],fixed:true,"group":1},
+                {name:"内蒙古",x:内蒙古[0],y:内蒙古[1],fixed:true,"group":1},
+                {name:"安徽",x:安徽[0],y:安徽[1],fixed:true,"group":1},
+                {name:"香港",x:香港[0],y:香港[1],fixed:true,"group":1},
+                {name:"上海",x:上海[0],y:上海[1],fixed:true,"group":1},
+                {name:"山西",x:山西[0],y:山西[1],fixed:true,"group":1},
+                {name:"西藏",x:西藏[0],y:西藏[1],fixed:true,"group":1},
+                {name:"辽宁",x:辽宁[0],y:辽宁[1],fixed:true,"group":1},
+                {name:"湖南省长评抢红包:反映我国创新驱动能力提高",fixed:false,"group":2},
+                {name:"中超首轮数据：上港舜天净时间近60分钟",fixed:false,"group":2},
+                {name:"四川荥经牛背山发现野生大熊猫(图)",fixed:false,"group":2},
+                {name:"国务院审改办:将坚决彻底清理“红顶中介”",fixed:false,"group":2},
+                {name:"苹果第四季度智能手机销量超三星",fixed:false,"group":2},
+                {name:"万邦达控股股东减持3676万股",fixed:false,"group":2},
+                {name:"四大上市险企薪酬前十高管去年人均755万元",fixed:false,"group":2},
+                {name:"上交所将择机实施多时段信息披露",fixed:false,"group":2},
+                {name:"最高法:去年新收知识产权行政一审案件增两倍多",fixed:false,"group":2},
+                {name:"李克强：把O2O新兴消费搞得红红火火",fixed:false,"group":2},
+                {name:"宝钢集团副总经理崔健涉嫌受贿被调查",fixed:false,"group":2},
+                {name:"揭农村脱衣舞背后利益链:一次表演收入两千多元",fixed:false,"group":2},
+                {name:"基金经理勒布1季度清空1000万股阿里股票",fixed:false,"group":2},
+                {name:"天成控股定增48亿转型互联网金融",fixed:false,"group":2},
+                {name:"国民党6月2日前讨论台湾地区领导人初选方式",fixed:false,"group":2},
+                {name:"沉寂一季菜鸟被激活广东最后的救命稻草",fixed:false,"group":2},
+                {name:"哈登赞第二阵容扫清障碍麦帅宣布魔兽下场缺席",fixed:false,"group":2},
+                {name:"新一届国少女排19人名单15岁左手主攻李盈莹领衔",fixed:false,"group":2},
+                {name:"康复训练师解读马布里:他的身体像20多岁",fixed:false,"group":2},
+                {name:"加加食品拟向大股东卓越投资定增募资4.5亿元",fixed:false,"group":2},
+                {name:"西安理工大学科研经费管理混乱校长书记被处分",fixed:false,"group":2},
+                {name:"高培勇：建立适应经济新常态的现代税收制度",fixed:false,"group":2},
+                {name:"媒体:周永康搞非组织政治活动踩到反党底线",fixed:false,"group":2},
+                {name:"房地产调控告别打压模式委员吁一线城市放开限购",fixed:false,"group":2},
+                {name:"李克强：对部分国外日用消费品试点降关税",fixed:false,"group":2},
+                {name:"楼继伟:要防止地方债务出现系统性风险",fixed:false,"group":2},
+                {name:"广东出台全国首个国企老总薪酬改革方案",fixed:false,"group":2},
+                {name:"山东证监局抓监管与促发展齐头并进",fixed:false,"group":2},
+                {name:"周鸿祎：绝对不给手机圈添堵添乱",fixed:false,"group":2},
+                {name:"我军应急演练在市区堵2小时800米通道走了30分钟",fixed:false,"group":2},
+                {name:"首台(套)重大技术装备试点保险补偿机制",fixed:false,"group":2},
+                {name:"辽足主帅：累倒四五个球员克服伤病很满意",fixed:false,"group":2},
+                {name:"5名失联渔民在珠海漂移10多海里后获救",fixed:false,"group":2},
+                {name:"曝申花或面足协追加处罚相关人员或进京听证",fixed:false,"group":2},
+                {name:"快船官方宣布与哈德森签长期合同",fixed:false,"group":2},
+                {name:"新疆今年高考照顾政策瘦身奥赛加分被取消",fixed:false,"group":2},
+                {name:"谭浩俊：人人都交的房产税岂不成“人头税”？",fixed:false,"group":2},
+                {name:"王宝泉解读国际排联新规三盘两胜对体能是考验",fixed:false,"group":2},
+                {name:"西部航空:男超120斤女超90斤不免行李托运费",fixed:false,"group":2},
+                {name:"深圳首次举行车牌摇号3912个个人普通指标全满",fixed:false,"group":2},
+                {name:"众生药业12.7亿元再赌先强药业为收购耗尽资金",fixed:false,"group":2},
+                {name:"大成基金：宽松货币政策或继续加码牛市格局将持续",fixed:false,"group":2},
+                {name:"教师被曝打骂学生要求下跪学生联名要求换老师",fixed:false,"group":2},
+                {name:"部分楼盘酝酿涨价业内称或引发购房者抵触心理",fixed:false,"group":2},
+                {name:"老婆娶得好中奖没烦恼！媳妇拉老公买彩揽2239万",fixed:false,"group":2},
+                {name:"商务部:1-4月国内消费市场平稳增长呈现4大亮点",fixed:false,"group":2},
+                {name:"*ST国恒第一大股东易主尤明才掌舵",fixed:false,"group":2},
+                {name:"河南：高考招生3个专项计划严格限定招收对象",fixed:false,"group":2},
+                {name:"铁路股受压沽空续交白卷",fixed:false,"group":2},
+                {name:"京媒:国安赢在踢得够聪明周挺进球该感谢场地",fixed:false,"group":2},
+                {name:"南京近十年每3名已故者中1人死于癌症",fixed:false,"group":2},
+                {name:"外媒：中国央行即将下发资产支持证券发行信披规定",fixed:false,"group":2},
+                {name:"富力召开内部会议稳定军心孔特拉：争胜德比战",fixed:false,"group":2},
+                {name:"央行：债务置换不能误读为量化宽松",fixed:false,"group":2},
+                {name:"唐人神收购龙华农牧完善产业链加快布局互联网+",fixed:false,"group":2},
+                {name:"院士：小学生学奥数除了加重负担没别的用处",fixed:false,"group":2},
+                {name:"刘鹏：对“4亿存款消失”银行莫急于撇清责任",fixed:false,"group":2},
+                {name:"苏宁张近东再挺电子发票让网上假货无路可逃",fixed:false,"group":2},
+                {name:"粤媒爆料：男篮集训队辽宁3球员因伤离开",fixed:false,"group":2},
+                {name:"五问河南老年公寓大火:事发当晚有无护工值班",fixed:false,"group":2},
+                {name:"深圳机场汽车失控撞死7人肇事司机为24岁女性",fixed:false,"group":2},
+                {name:"男子同时交17名女友已被立案受害者称将维权",fixed:false,"group":2},
+                {name:"快讯：佳兆业被指境外债务重组遇阻跌逾5%",fixed:false,"group":2},
+                {name:"念斌要求1千万损害赔偿法院称55万尽最大努力",fixed:false,"group":2},
+                {name:"魔兽膝伤恢复缓慢仍无法负重下周再做复查",fixed:false,"group":2},
+                {name:"总决赛赛程出炉：6月5日西部开打2-2-1-1-1",fixed:false,"group":2},
+                {name:"老赖拖欠百万玩失踪开房被抓后当天还清欠款",fixed:false,"group":2},
+                {name:"芈昱廷序盘早可变招陈耀烨苦肉计换劫争(多谱)",fixed:false,"group":2},
+                {name:"发改委一日批复四个铁路项目再掀建设高潮",fixed:false,"group":2},
+                {name:"多伦股份叫板核查称不算内幕匹凸匹吹出两涨停",fixed:false,"group":2},
+                {name:"河北环保厅长:超9成环境违法企业在乡镇",fixed:false,"group":2},
+                {name:"人社部副部长:调低养老保险费率尚无共识",fixed:false,"group":2},
+                {name:"上交所重大违法退市机制启动博元投资遭退市风险警示",fixed:false,"group":2},
+                {name:"二套房贷款最低首付比例降至四成",fixed:false,"group":2},
+                {name:"哈尔滨一床垫厂起火20余辆消防车赶到现场救援",fixed:false,"group":2},
+                {name:"歼10研制中曾头轻尾重技师巧妙“瘦身”",fixed:false,"group":2},
+                {name:"男子赠情人40万元妻子起诉要求返还",fixed:false,"group":2},
+                {name:"张海阳等4名上将同日任职全国人大",fixed:false,"group":2},
+                {name:"国办：三公经费决算公开应细化说明出国人数",fixed:false,"group":2},
+                {name:"创业板一季报76家公司现大股东减持",fixed:false,"group":2},
+                {name:"库克揭秘苹果如何决定研发新产品",fixed:false,"group":2},
+                {name:"今起每人可开20个证券账户或引发券商价格战",fixed:false,"group":2},
+                {name:"中超第12轮红黄牌及停赛通知：国安2大将停赛",fixed:false,"group":2},
+                {name:"河北宁晋液化气站起火爆炸暂无人员伤亡",fixed:false,"group":2},
+                {name:"快讯：折价AH继续上涨中集集团涨逾7%",fixed:false,"group":2},
+                {name:"令人痛心！卡普里亚蒂父亲因癌症不幸离世",fixed:false,"group":2},
+                {name:"证监会张育军：降低证券期货经营机构准入门槛",fixed:false,"group":2},
+                {name:"调查称3月新增贷款维持万亿规模七成机构预计4月降准",fixed:false,"group":2},
+                {name:"工业领域控煤计划将出台：2020年力争节煤1.6亿吨",fixed:false,"group":2},
+                {name:"JanneyCapital下调推特评级与目标价",fixed:false,"group":2},
+                {name:"文化部严查农村地区“脱衣舞”(图)",fixed:false,"group":2},
+                {name:"女童求学寄宿姑姑家遭其公公多次猥亵",fixed:false,"group":2},
+                {name:"证监会：10家公司首发申请过会中公高科被否",fixed:false,"group":2},
+                {name:"银监会:经营型支行行长将取消任职审核",fixed:false,"group":2},
+                {name:"警察拍安全宣传片1人分饰六角:菜场大妈最难演",fixed:false,"group":2},
+                {name:"七旬摩的司机运毒被拘称运毒比载人每趟多3元",fixed:false,"group":2},
+                {name:"山西国企高管年薪须一年一晒23家企业率先执行",fixed:false,"group":2},
+                {name:"女子听信神棍情人治病谎言助其强奸15岁女儿",fixed:false,"group":2},
+                {name:"内蒙古艺考生拍试卷上传网络30名监考员被处理",fixed:false,"group":2},
+                {name:"马刺发飙轻取东部第一浓眉复出鹈鹕不敌快船",fixed:false,"group":2},
+                {name:"最佳新秀阵容:维金斯领衔湖人小将入一阵",fixed:false,"group":2},
+                {name:"北京大屯飙车案2名司机被取保候审",fixed:false,"group":2},
+                {name:"146公斤孕妇剖腹产7名护士合力抬入手术室",fixed:false,"group":2},
+                {name:"拜纳姆：穆迪埃减轻我压力包袱已甩给北京",fixed:false,"group":2},
+                {name:"女子神智不清深夜流浪田野民警唱歌陪聊2小时",fixed:false,"group":2},
+                {name:"匿名社交领头羊Secret缘何死掉",fixed:false,"group":2},
+                {name:"国安出征重庆3大将留守3伤号无大碍赴渝会合",fixed:false,"group":2},
+                {name:"苏媒：续约孙可吴曦不能再拖吉翔愿终老舜天",fixed:false,"group":2},
+                {name:"闫冰竹委员：建立小微企业融资增信体系",fixed:false,"group":2},
+                {name:"李登辉办公室主任被指与多名女性绯闻",fixed:false,"group":2},
+                {name:"康复师:刘翔2014年已考虑退役推迟一年为证明",fixed:false,"group":2},
+                {name:"男子公交车上暴打12岁初中生警方全城通缉",fixed:false,"group":2},
+                {name:"苗圩：推进新能源汽车充电基础设施建设",fixed:false,"group":2},
+                {name:"湖北遭举报婚外情检察官已被停职检查",fixed:false,"group":2},
+                {name:"李克强：反腐既要惩治乱作为也反对不作为",fixed:false,"group":2},
+                {name:"网信办:中央重点新闻网站处置违规账号7000余个",fixed:false,"group":2},
+                {name:"许小年：一带一路在经济方面的含义非常有限",fixed:false,"group":2},
+                {name:"全国律协副会长:有罪推定意识是冤假错案根源",fixed:false,"group":2},
+                {name:"世乒赛国乒女队新裙装亮相网友吐槽:不忍直视(图)",fixed:false,"group":2},
+                {name:"发改委公布高通案行政处罚决定书",fixed:false,"group":2},
+                {name:"上交所公开谴责海润光伏董事长",fixed:false,"group":2},
+                {name:"贵州汽车站疑因驾驶员个人纠纷引起爆炸致9人伤",fixed:false,"group":2},
+                {name:"约什:有人比哈登更配MVP?可笑这不是月最佳",fixed:false,"group":2},
+                {name:"闽A2B250车主遇闽ASB250车主:有时间喝两杯",fixed:false,"group":2},
+                {name:"记者手记：陈道明席地而坐，为我改稿",fixed:false,"group":2},
+                {name:"马刺vs快船G5最后时刻3误判快船2犯规没吹",fixed:false,"group":2},
+                {name:"北京食药监局：金碧峰铁观音稀土超标近3倍",fixed:false,"group":2},
+                {name:"质检总局对儿童用品集中组织执法检查",fixed:false,"group":2},
+                {name:"证监会巡视组进驻上交所深交所等单位",fixed:false,"group":2},
+                {name:"高新兴12亿并购创联电子与国迈科技搭建大安防",fixed:false,"group":2},
+                {name:"一汽夏利遭退市警示王亚伟重仓押赌一汽偏任性",fixed:false,"group":2},
+                {name:"看图：降息真的能刺激中国经济吗",fixed:false,"group":2},
+                {name:"牛市敌人：停牌股比年初激增三成",fixed:false,"group":2},
+                {name:"西安破获非法跨区倒卖香烟案嫌疑人被刑拘",fixed:false,"group":2},
+                {name:"伤病跟恒大杠上！张琳芃开场6分钟伤退|GIF",fixed:false,"group":2},
+                {name:"中央审议通过广东天津福建3地自贸试验区总体方案",fixed:false,"group":2},
+                {name:"江苏省委巡视组将巡视苏州无锡等5市",fixed:false,"group":2},
+                {name:"曹林：“一边倒赞成”未必就是好声音",fixed:false,"group":2},
+                {name:"余欣荣：中国人的饭碗主要装中国粮",fixed:false,"group":2},
+                {name:"专家预测房地产税:抑制房价作用有限或选择性征收",fixed:false,"group":2},
+                {name:"农业部:中国果树蔬菜施肥量较高超出安全水平",fixed:false,"group":2},
+                {name:"激活港股通折让H股大炒落后重庆钢铁曾涨15%",fixed:false,"group":2},
+                {name:"广州友谊业绩连年下降",fixed:false,"group":2},
+                {name:"8岁女童放学路上遭陌生男子性侵致下体撕裂",fixed:false,"group":2},
+                {name:"上海人才新政或下月底公布居住证最快两年落户",fixed:false,"group":2},
+                {name:"南北车暴跌暴涨“神车”变“过山车”",fixed:false,"group":2},
+                {name:"呼格案原专案组长上周被双开消息不实",fixed:false,"group":2},
+                {name:"交通部：收费公路贷款一般在15年以上",fixed:false,"group":2},
+                {name:"迷你也迷人23只迷你股基年内平均收益37.9%",fixed:false,"group":2},
+                {name:"多地城投债变脸城镇化基金或面临死灰复燃局面",fixed:false,"group":2},
+                {name:"帕尔默赛第三轮斯滕森夺取榜首小麦掉杆排12位",fixed:false,"group":2},
+                {name:"青青稞酒投资1.44亿购中酒网九成股权",fixed:false,"group":2},
+                {name:"上海报告1例H7N9确诊病例",fixed:false,"group":2},
+                {name:"福建晋江中学学生打群架致1人死亡2人受伤",fixed:false,"group":2},
+                {name:"4轮不胜申鑫小将剖析失利原因：太想保住胜利",fixed:false,"group":2},
+                {name:"男篮第二战刘炜继续缺阵李根是否打不确定",fixed:false,"group":2},
+                {name:"图文：银河期货总经理姚广",fixed:false,"group":2},
+                {name:"东莞公安局长上调司法厅治黄成绩获省委认可",fixed:false,"group":2},
+                {name:"段子手郭艾伦！大长手弹钢琴一身艺术细菌(图)",fixed:false,"group":2},
+                {name:"官方周最佳:利拉德&小刺客威少哈登获提名",fixed:false,"group":2},
+                {name:"26+10浓眉生涯首胜水中月问加嫂KG这多难",fixed:false,"group":2},
+                {name:"郑商所：帮助实体企业适应经济发展新常态",fixed:false,"group":2},
+                {name:"李克强与青年人边喝咖啡边聊创业(组图)",fixed:false,"group":2},
+                {name:"东方财富拟44亿元并购同信证券",fixed:false,"group":2},
+                {name:"国台办:欢迎台湾以适当名义加入亚投行态度没变",fixed:false,"group":2},
+                {name:"李扬卸任中国社会科学院副院长(图简历)",fixed:false,"group":2},
+                {name:"京天利停牌三日火速复牌定增圈占“互联网+”蓝海",fixed:false,"group":2},
+                {name:"新疆兵团一落马官员自编自导中大奖掩饰收钱",fixed:false,"group":2},
+                {name:"《舌尖上的中国》第3季正式启动",fixed:false,"group":2},
+                {name:"北京小区40多辆车被泼粪疑因乱停乱放引起",fixed:false,"group":2},
+                {name:"媒体解读十年有期徒刑至死刑：贪官如何量刑",fixed:false,"group":2},
+                {name:"步行者双加时险胜奇才热火躺枪无缘季后赛",fixed:false,"group":2},
+                {name:"政协委员：建议医保卡余额可用于健身",fixed:false,"group":2},
+                {name:"台东海端乡发生4.2级地震",fixed:false,"group":2},
+                {name:"台行政与立法部门达共识:台应成亚投行一般成员",fixed:false,"group":2},
+                {name:"中国试点重大案件3名以上人民陪审员参加合议庭",fixed:false,"group":2},
+                {name:"沪昆高速嘉兴段三车碰撞致4人死亡2人系幼儿",fixed:false,"group":2},
+                {name:"习近平谈政法队伍：面对考验绝不能当骑墙派",fixed:false,"group":2},
+                {name:"王健林:万达万科还在探讨超千亿级别新合作",fixed:false,"group":2},
+                {name:"内蒙古呼格案真凶二审开庭呼格父母在场旁听",fixed:false,"group":2},
+                {name:"西安被打男童伤情不重已出院",fixed:false,"group":2},
+                {name:"高中生痴迷玄幻小说模仿书中情节蒙面持刀抢劫",fixed:false,"group":2},
+                {name:"晏扬：降“份子钱”便宜了出租车公司？",fixed:false,"group":2},
+                {name:"围甲第5轮积分：苏泊尔杭州独自领跑三强队垫底",fixed:false,"group":2},
+                {name:"河北发布2015年版新增限制和淘汰类产业目录",fixed:false,"group":2},
+                {name:"王传涛：“颜龄APP”测贪官只是虚妄网络狂欢",fixed:false,"group":2},
+                {name:"黄文义完美收官交出68杆深圳国际赛冲入前十位",fixed:false,"group":2},
+                {name:"“互联网+”的下一个目标会是谁？",fixed:false,"group":2},
+                {name:"十八大后落马老虎首现不认罪:当庭翻供",fixed:false,"group":2},
+                {name:"去哪儿网优飞币遭投诉：优惠背后有玄机",fixed:false,"group":2},
+                {name:"美女深夜家门口被害曾为央视实习主播(图)",fixed:false,"group":2},
+                {name:"中国版QE呼之欲出经济不需接盘大包大揽",fixed:false,"group":2},
+                {name:"魔兽:希望能打20个赛季石佛天勾是我榜样",fixed:false,"group":2},
+                {name:"足协杯-王云龙制胜球中优1-0小胜四川晋级",fixed:false,"group":2},
+                {name:"贫困县农民中573万楞不知奖票揣兜里庆幸没丢",fixed:false,"group":2},
+                {name:"人民日报:融券新政不改牛市规范市场利长远",fixed:false,"group":2},
+                {name:"发改委再降债券门槛谋稳增长：输血实体经济",fixed:false,"group":2},
+                {name:"20亿还不够！快船前老板起诉NBA索赔超6亿",fixed:false,"group":2},
+                {name:"发改委：推进装备走出去今年将出具体改革方案",fixed:false,"group":2},
+                {name:"中移动OTN设备集采招标结束两上市公司入列",fixed:false,"group":2},
+                {name:"棋手同名“闹乌龙”名人战周鹤洋不战而胜",fixed:false,"group":2},
+                {name:"国办：放宽修业年限允许大学生保留学籍休学创业",fixed:false,"group":2},
+                {name:"郭树清：以金融创新和科技创新带动经济转型",fixed:false,"group":2},
+                {name:"上海德比的前后：教练的心酸申花没时间抱怨",fixed:false,"group":2},
+                {name:"秦天：申花要考虑态度问题",fixed:false,"group":2},
+                {name:"宝钢陈德荣：钢铁电商站在了互联网+的风口上",fixed:false,"group":2},
+                {name:"2014-15赛季自动战力榜第18期",fixed:false,"group":2},
+                {name:"山西官员驾车被追尾辱骂肇事者称我是纪委的",fixed:false,"group":2},
+                {name:"股市牛了彩市火了2015年一起带你飞！",fixed:false,"group":2},
+                {name:"魔兽肘击巴恩斯被罚款1万5罚下前与湖蜜冲突",fixed:false,"group":2},
+                {name:"刘云山出席中央党校毕业典礼",fixed:false,"group":2},
+                {name:"京媒:陈志钊是老实孩子推裁判说明确实被冤枉",fixed:false,"group":2},
+                {name:"新款特斯拉ModelS将在20天内交货",fixed:false,"group":2},
+                {name:"中国南车中国北车5月7日起停牌将以中国中车复牌",fixed:false,"group":2},
+                {name:"保安偷鸡蛋标明日期:先偷的先吃(组图)",fixed:false,"group":2},
+                {name:"吉林白城市人大常委会原副主任冷有春被查",fixed:false,"group":2},
+                {name:"中国平安净利增近4成10转10派5元分红方案亮眼",fixed:false,"group":2},
+                {name:"解剖前海外债宏观审慎试点样本：融资利差达3%",fixed:false,"group":2},
+                {name:"山西今年将审计55名省管干部涉及市委书记市长",fixed:false,"group":2},
+                {name:"库里已成精英防守者？7方面进步令人刮目相看",fixed:false,"group":2},
+                {name:"中国核电周三上会巨无霸们曾这样扰动大盘",fixed:false,"group":2},
+                {name:"男子当情人面强奸其女儿被判刑10年",fixed:false,"group":2},
+                {name:"并购重组成二级市场吸金热点",fixed:false,"group":2},
+                {name:"中台办:民进党抹黑责难国共两党互动并不奇怪",fixed:false,"group":2},
+                {name:"马英九教唱《感谢妈妈歌》一度哽咽(图)",fixed:false,"group":2},
+                {name:"福建《东南早报》给电子版负面报道打马赛克",fixed:false,"group":2},
+                {name:"台北地铁致4死22伤杀人案凶手被判死刑(图)",fixed:false,"group":2},
+                {name:"无业男冒充“能人”诈骗60万嗜赌如命挥霍一空",fixed:false,"group":2},
+                {name:"百圆裤业更名“跨境通宝”被深交所问询",fixed:false,"group":2},
+                {name:"社科院专家：今年房地产金融政策将继续宽松",fixed:false,"group":2},
+                {name:"陈水扁遭爆料收商人几十亿台币台检方分案调查",fixed:false,"group":2},
+                {name:"中钢协：后期铁矿石价格将以低位运行为主",fixed:false,"group":2},
+                {name:"男子将妻子遗体捐献后多次寻访:想再看一眼",fixed:false,"group":2},
+                {name:"郭元鹏：病母成为摇钱树，官德人味都没了",fixed:false,"group":2},
+                {name:"李克强：以敬民之心行简政之道",fixed:false,"group":2},
+                {name:"杭州约谈4大专车平台私家车作专车或将罚1万元",fixed:false,"group":2},
+                {name:"三宝胶囊等5个违法广告被曝光：欺骗误导消费者",fixed:false,"group":2},
+                {name:"李克强：储备好政策该出手就出手",fixed:false,"group":2},
+                {name:"动图-孙悦大帽韩德君功夫熊猫轰然倒地",fixed:false,"group":2},
+                {name:"何志成：央行高频抗通缩显示经济失速是主要矛盾",fixed:false,"group":2},
+                {name:"专家解读近期货币政策操作：不存在“中国版QE”",fixed:false,"group":2},
+                {name:"多伦股份涉及内幕信息将按上交所要求自查",fixed:false,"group":2},
+                {name:"男子怕岳母和自己争房产伪造证据让其去世",fixed:false,"group":2},
+                {name:"米勒:头次见乔丹就喷他结果被黑耶稣修理",fixed:false,"group":2},
+                {name:"奥运冠军办公室开始新人生旅程转型延续热爱事业",fixed:false,"group":2},
+                {name:"神华集团总经理助理收8名下属捐款修家庙(图)",fixed:false,"group":2},
+                {name:"恒指收市倒跌106点内银内险拖累大市",fixed:false,"group":2},
+                {name:"江西湖口县委书记副县长相继落马",fixed:false,"group":2},
+                {name:"上证50中证500股指期货4月16日上市交易保证金10％",fixed:false,"group":2},
+                {name:"广州抽检插座超3成不合格涉欧普等品牌",fixed:false,"group":2},
+                {name:"外贸稳增长再次强调通关便利改进工作政策措施",fixed:false,"group":2},
+                {name:"兰州一高校两百余学生腹泻入院疑因自来水异常",fixed:false,"group":2},
+                {name:"女子坠楼身亡摩托车司机路过捡走死者包",fixed:false,"group":2},
+                {name:"老人1年买40万保险被告知孙子75岁才能全取出",fixed:false,"group":2},
+                {name:"开朗男子机选中1000万蛰伏5天穿红T恤现身(图)",fixed:false,"group":2},
+                {name:"子公司引入合伙人失败国电南自预亏超3亿元",fixed:false,"group":2},
+                {name:"多数药品政府定价将取消价格由市场竞争形成",fixed:false,"group":2},
+                {name:"逼恒大赢场球像夺亚冠这可能是5年来最牛升班马",fixed:false,"group":2},
+                {name:"女子夜会情夫被儿子追逐溺水而亡",fixed:false,"group":2},
+                {name:"白酒风向标茅台业绩触底反弹去年净利153亿",fixed:false,"group":2},
+                {name:"男子斗殴致人死亡潜逃15年隐姓埋名娶妻生子",fixed:false,"group":2},
+                {name:"的哥遭多人围殴施暴者被情人举报落网",fixed:false,"group":2},
+                {name:"高中国学通识教材将出版高二全文学习道德经",fixed:false,"group":2},
+                {name:"歌华有线拟募资33亿元公司股票3月9日复牌",fixed:false,"group":2},
+                {name:"7名员工在公司群组辱骂老板娘集体被炒鱿鱼",fixed:false,"group":2},
+                {name:"吴龙贵：花170万元救死刑犯到底值不值",fixed:false,"group":2},
+                {name:"皖通科技终止重组安徽广电未获主管部门批准",fixed:false,"group":2},
+                {name:"周琦也爱泡网吧玩游戏！姚明当年最爱魔兽(图)",fixed:false,"group":2},
+                {name:"波音盈利预期被下调股价承压",fixed:false,"group":2},
+                {name:"六旬老人拖伤腿拾荒抚养弃婴供其跳舞弹琴(图)",fixed:false,"group":2},
+                {name:"火箭第二轮赛程表出炉有主场优势5月5日开打",fixed:false,"group":2},
+                {name:"9岁男童患病肌肉僵硬吞咽困难母亲难承受离家",fixed:false,"group":2},
+                {name:"深成指扩容有望为深港通铺路原标的股或受冲击",fixed:false,"group":2},
+                {name:"台湾台中附近海域发生3.6级地震震源深度6千米",fixed:false,"group":2},
+                {name:"通达动力业绩变脸高管提前套现或面临处罚",fixed:false,"group":2},
+                {name:"药品公司董事长:90%药品有50%降价空间",fixed:false,"group":2},
+                {name:"河北检方一日通报6起案件多名官员被依法逮捕",fixed:false,"group":2},
+                {name:"央视315曝光4S店:夸大车辆故障牟取暴利(图)",fixed:false,"group":2},
+                {name:"一季度数据：不太好看背后有哪些好看",fixed:false,"group":2},
+                {name:"广西梧州山火危及加油站学校目前正扑救(图)",fixed:false,"group":2},
+                {name:"金价小幅跳水花旗下调均价预期",fixed:false,"group":2},
+                {name:"台阿帕奇观光团确有第四团系依规定访视飞行官",fixed:false,"group":2},
+                {name:"浙江渔船发生大火致5人遇难余下10人均获救",fixed:false,"group":2},
+                {name:"人大财经委副主任委员：增速换挡但也不能不要GDP",fixed:false,"group":2},
+                {name:"赛象科技再遭股东减持991万股套现为3.51亿",fixed:false,"group":2},
+                {name:"快讯：中石化总经理王天普被查H股跌4%",fixed:false,"group":2},
+                {name:"洛瑞成功复仇击败好友麦克道尔这次不用掏钱包",fixed:false,"group":2},
+                {name:"黑莓第四季盈利营收均超预期",fixed:false,"group":2},
+                {name:"昆明拟规定随地吐痰车窗抛物最高罚200",fixed:false,"group":2},
+                {name:"大摩：中国进入可持续的去杠杆进程",fixed:false,"group":2},
+                {name:"耀才证券﹕概念股个别崩盘",fixed:false,"group":2},
+                {name:"大学运动会禁学生无故请假有人花200元雇人看",fixed:false,"group":2},
+                {name:"百胜称其将致力于让中国业务重回正轨",fixed:false,"group":2},
+                {name:"中国即将全面告别营业税金融地产税率确定",fixed:false,"group":2},
+                {name:"社科院：地方债新政存管理链条过长等问题",fixed:false,"group":2},
+                {name:"长春亚泰或成为新三板首家挂牌足球俱乐部",fixed:false,"group":2},
+                {name:"中国联通回应员工违规开卡:将严处责任人",fixed:false,"group":2},
+                {name:"国台办:民进党与大陆交往需认同两岸同属一中",fixed:false,"group":2},
+                {name:"男子诉倪萍索赔22万称被骂骗子名誉受损",fixed:false,"group":2},
+                {name:"力帆5大攻略备战鲁能孙继海给新晋国脚开小灶",fixed:false,"group":2},
+                {name:"广西桂林官员53次挪用1180万公款炒股养情妇",fixed:false,"group":2},
+                {name:"温州33名市管干部与配偶参与民间借贷",fixed:false,"group":2},
+                {name:"中央11部门计划购车而无预算专家称为自有资金",fixed:false,"group":2},
+                {name:"男子与女友赌气跳湖被冻僵消防员将其救出(图)",fixed:false,"group":2},
+                {name:"青海华鼎遭“牛散”超比例增持",fixed:false,"group":2},
+                {name:"山西官员开会大骂国家规定是狗屁已被停职(图)",fixed:false,"group":2},
+                {name:"教育部:北京等24个重点大城市今年深化划片入学",fixed:false,"group":2},
+                {name:"山西省管干部空缺近300名含3名市委书记",fixed:false,"group":2},
+                {name:"习近平两会六次下团组：对六类人说不",fixed:false,"group":2},
+                {name:"北京地铁执法队将建乞讨信息库与多部门对接",fixed:false,"group":2},
+                {name:"男子因纠纷叫40多人打人砸车事后找人顶罪(图)",fixed:false,"group":2},
+                {name:"家境贫寒12岁少年患白血病一周获近百万捐款",fixed:false,"group":2},
+                {name:"人和质疑:是谁要求主裁改判有压力就顶不住？",fixed:false,"group":2},
+                {name:"快讯：中资电讯股下跌中国移动跌近2%",fixed:false,"group":2},
+                {name:"银监会：民间资本进入银行业取得历史性突破",fixed:false,"group":2},
+                {name:"广州打掉外籍黑社会团伙16名外籍嫌犯落网",fixed:false,"group":2},
+                {name:"楼市新政效应分化一线城市销量上涨明显",fixed:false,"group":2},
+                {name:"20多名女贼借孕行窃：不停怀孕每人至少4个娃",fixed:false,"group":2},
+                {name:"北京丰台警方辟谣劫匪视频:近期未发生劫持事件",fixed:false,"group":2},
+                {name:"骑士主帅:詹皇打32分钟不为刷三双那是计划",fixed:false,"group":2},
+                {name:"上市公司并购激增地雷频现",fixed:false,"group":2},
+                {name:"政协委员:建议在高校开设孝道教育国学课程",fixed:false,"group":2},
+                {name:"两名好友10年未见争买单引互殴1人手骨折入院",fixed:false,"group":2},
+                {name:"屠光绍在第十二届上海衍生品市场论坛上的致辞",fixed:false,"group":2},
+                {name:"武汉国税局副局长涉嫌严重违纪被查",fixed:false,"group":2},
+                {name:"湖北省委书记:有纪检干部成宠物猫不会抓老鼠",fixed:false,"group":2},
+                {name:"曹林：人们为何那么爱看“抓贪官细节”",fixed:false,"group":2},
+                {name:"下周限售股解禁市值达581亿元周一压力最大",fixed:false,"group":2},
+                {name:"生益科技质疑环保局抽检数据承认排放影响健康",fixed:false,"group":2},
+                {name:"广东普宁：少数滋事分子煽动群众闹事10人被抓",fixed:false,"group":2},
+                {name:"柯文哲见马英九6年前题字自求多福笑称:他需要",fixed:false,"group":2},
+                {name:"“圈地”业绩不彰恒康医疗返售昔日医院",fixed:false,"group":2},
+                {name:"陕西县官承认为女儿安排工作称组织调查就辞职",fixed:false,"group":2},
+                {name:"立法法修改将限制部门权限：不得法外设权",fixed:false,"group":2},
+                {name:"鸡蛋：前低面临考验",fixed:false,"group":2},
+                {name:"4月2日晚间上市公司高送转一览",fixed:false,"group":2},
+                {name:"中能反诉刘健开庭球员隐瞒合同恒大违规索赔",fixed:false,"group":2},
+                {name:"云维股份资产注入夭折实控人董事长被查",fixed:false,"group":2},
+                {name:"男子无照开诊所致人死亡获刑一年半遭抗诉",fixed:false,"group":2},
+                {name:"女子坐飞机对男子一见钟情寻找后发现对方已婚",fixed:false,"group":2},
+                {name:"澳新银行：中国第一季度经济增速可能低于7%",fixed:false,"group":2},
+                {name:"标普确认通用电气信用评级为AA+",fixed:false,"group":2},
+                {name:"易联众控股股东2500万股股份解除质押",fixed:false,"group":2},
+                {name:"上海三成市民不排斥家庭开支AA制",fixed:false,"group":2},
+                {name:"媒体：赵黎平案情节过于离奇望及时披露案情",fixed:false,"group":2},
+                {name:"证监会取消期货董监高任职资格核准",fixed:false,"group":2},
+                {name:"女代表议处级女干部延迟退休：体现男女平等",fixed:false,"group":2},
+                {name:"总理密集考察银行分析称不意味着信贷投放将加速",fixed:false,"group":2},
+                {name:"多拉18号洞平均杆4.60杆超五杆洞首轮19颗球下水",fixed:false,"group":2},
+                {name:"吕志和：澳门博彩业正进入“新时代”",fixed:false,"group":2},
+                {name:"深信泰丰一季度净利润2300万元预增73倍",fixed:false,"group":2},
+                {name:"赵黎平涉嫌杀害一名与其较为亲密女性",fixed:false,"group":2},
+                {name:"台媒称台军早就烂无可烂泄密已成家常便饭",fixed:false,"group":2},
+                {name:"单仁平：储安平衣冠冢让如烟往事沉淀",fixed:false,"group":2},
+                {name:"证监会主席肖钢调研申万宏源闭门会上说了啥？",fixed:false,"group":2},
+                {name:"山西男篮征集新队标奖金10000人民币",fixed:false,"group":2},
+                {name:"港股金融板块领涨中国央行三个月中两度降息",fixed:false,"group":2},
+                {name:"傅莹:腐败分子逃到天涯海角也要归案",fixed:false,"group":2},
+                {name:"顽童鞭炮扔窨井炸飞井盖无辜女孩被炸亡",fixed:false,"group":2},
+                {name:"夫妻路过火灾现场帮助救火救出一家三口(图)",fixed:false,"group":2},
+                {name:"女子注射假冒美容针面部红肿商家判赔20万",fixed:false,"group":2},
+                {name:"海军指挥学院原院长李鼎文中将逝世",fixed:false,"group":2},
+                {name:"法工委：红头文件不能减损公民权利",fixed:false,"group":2},
+                {name:"肖钢：今年新股发行会比去年多",fixed:false,"group":2},
+                {name:"触底反弹！哈登30年第1人45+9+5+2比肩乔丹",fixed:false,"group":2},
+                {name:"河南业余围棋联赛开幕唐崇哲卢宁告捷李天罡失利",fixed:false,"group":2},
+                {name:"比亚迪速锐双离合变速箱频遭投诉280位车主维权",fixed:false,"group":2},
+                {name:"朱挺重伤休克醒来先问比分总经理：向他致敬！",fixed:false,"group":2},
+                {name:"洪秀柱表态参加国民党“大选”初选",fixed:false,"group":2},
+                {name:"武警部队07作训服改款更换领章便于作战(图)",fixed:false,"group":2},
+                {name:"四川广元原常务副市长苏利明被双开",fixed:false,"group":2},
+                {name:"中方:抗战胜利70周年纪念阅兵式非秀肌肉",fixed:false,"group":2},
+                {name:"港股成交再创新高濠赌股大炒落后",fixed:false,"group":2},
+                {name:"舜天被曝夏季或甩卖孙可吉翔涨薪三四倍",fixed:false,"group":2},
+                {name:"降息难抵环保压力螺纹钢短线反弹可加空",fixed:false,"group":2},
+                {name:"乌索因伤离场秦升不断催这次他说葡语(gif)？",fixed:false,"group":2},
+                {name:"易纲称人民币是很强的货币不会加入贬值大军",fixed:false,"group":2},
+                {name:"鲁政委等五大首席经济学家解读经济数据",fixed:false,"group":2},
+                {name:"星展银行：预计未来几个月内还会有一次降息",fixed:false,"group":2},
+                {name:"2015年电力供需总体宽松部分地区偏紧",fixed:false,"group":2},
+                {name:"库里28分巴恩斯准绝杀勇士拒绝逆转险胜太阳",fixed:false,"group":2},
+                {name:"92家科技馆试点对外免费开放中国科技馆未纳入",fixed:false,"group":2},
+                {name:"16家纯B股公司回应转板情况:大股东是否有动力是关键",fixed:false,"group":2},
+                {name:"网帖回应揭发：姚景远孙彩艳该下地狱中国举重人渣",fixed:false,"group":2},
+                {name:"男子不甘前女友有新欢多次报警谎称其卖淫",fixed:false,"group":2},
+                {name:"南北车同时终止上市中国南车将开始换股",fixed:false,"group":2},
+                {name:"成都农业科技职业学院书记许亚东被调查",fixed:false,"group":2},
+                {name:"港股4连阴累跌723点光伏股急跌君阳跌16%",fixed:false,"group":2},
+                {name:"2岁男童跌入汤桶烫伤追踪:五万善款已拨付",fixed:false,"group":2},
+                {name:"跨界猛冲规模百亿期货私募躁动",fixed:false,"group":2},
+                {name:"白皮书：2014新开球场设施数17家关停76家",fixed:false,"group":2},
+                {name:"中电信手机卡被异地补办绑定信用卡遭盗刷10万",fixed:false,"group":2},
+                {name:"星徽精密等6家公司首发申请24日上会",fixed:false,"group":2},
+                {name:"流浪老人因劝醉酒年轻人小点声遭殴打",fixed:false,"group":2},
+                {name:"港股午后跌势突转急跌逾200点",fixed:false,"group":2},
+                {name:"大学生救2名儿童后溺亡续:警方确定其救人行为",fixed:false,"group":2},
+                {name:"国网上市时间表落地:整合以五年为期今年完成6-8家",fixed:false,"group":2},
+                {name:"李金羽看好国安足协杯夺冠赞亚冠靠拼搏拿到6分",fixed:false,"group":2},
+                {name:"500彩票周二收盘股价暴涨18%盘中涨幅超36%",fixed:false,"group":2},
+                {name:"江泉实业重组标的业绩被疑剑指内幕交易",fixed:false,"group":2},
+                {name:"4月各地工业分化部分地区下行压力加大",fixed:false,"group":2},
+                {name:"4家售净化器公司涉嫌虚假宣传被查",fixed:false,"group":2},
+                {name:"恩里克因伤缺战鲁能申花高层:中期外援或调整",fixed:false,"group":2},
+                {name:"李秋平有望执教新疆崔万军兼职国字号难留任",fixed:false,"group":2},
+                {name:"A股今年或难加入MSCI央行下半年降息概率较小",fixed:false,"group":2},
+                {name:"老人不满公交绕路用口袋打司机头引乘客不满",fixed:false,"group":2},
+                {name:"最高检:去年监督收监121名原厅局级以上罪犯",fixed:false,"group":2},
+                {name:"詹姆斯20分三巨头低迷骑士主场苦战险胜76人",fixed:false,"group":2},
+                {name:"易纲：人民币跨境支付系统四季度上线运行",fixed:false,"group":2},
+                {name:"它山之石：花旗和德银如何做交易银行",fixed:false,"group":2},
+                {name:"双色球一等9注647万插曲!主持人报错奖号顺序",fixed:false,"group":2},
+                {name:"广西交通厅原厅长黄华宽涉嫌受贿罪被立案侦查",fixed:false,"group":2},
+                {name:"天津公安局取消开无犯罪证明收费",fixed:false,"group":2},
+                {name:"中国制造2025出台三步走实现制造强国战略目标",fixed:false,"group":2},
+                {name:"江苏各地向为官不为亮剑让不作为干部没奔头",fixed:false,"group":2},
+                {name:"港股甫开曾倒跌200点失守2万8关",fixed:false,"group":2},
+                {name:"《冰雪奇缘2》助迪士尼股价大涨4%创新高",fixed:false,"group":2},
+                {name:"陶氏化学拟裁员至多1750人",fixed:false,"group":2},
+                {name:"CUBA西南赛区男篮：武科大胜东道主保持不败",fixed:false,"group":2},
+                {name:"停不下来！WCBA马拉松式赛制引争议",fixed:false,"group":2},
+                {name:"山东毒西瓜共计3万斤17人疑似中毒",fixed:false,"group":2},
+                {name:"西藏日喀则聂拉木县发生5.3级地震",fixed:false,"group":2},
+                {name:"北京西城：民告官行政首长须出庭",fixed:false,"group":2},
+                {name:"南北车最后一份财报：首季共赚近20亿",fixed:false,"group":2},
+                {name:"女子帮丈夫试毒品后沦为贩毒助手",fixed:false,"group":2},
+                {name:"水花兄弟40分勇士1-0康利缺阵灰熊出师不利",fixed:false,"group":2},
+                {name:"雅致股份等两公司并购重组获通过永贵电器被否",fixed:false,"group":2},
+                {name:"李克强回信清华创客：将出更多积极政策",fixed:false,"group":2},
+                {name:"预算报告更加细化财税法制化继续推进",fixed:false,"group":2},
+                {name:"武汉1年37人猥亵性侵儿童获刑逾4成熟人犯罪",fixed:false,"group":2},
+                {name:"河南肿瘤报告:肺癌发病率死亡率第一",fixed:false,"group":2},
+                {name:"东体阿仁：欢迎铁哨马宁",fixed:false,"group":2},
+                {name:"女子飙车时速226公里赶上飞机速度被扣12分",fixed:false,"group":2},
+                {name:"上周14家企业终止IPO审查",fixed:false,"group":2},
+                {name:"2名法官接受原告吃请被举报法院称正在核查",fixed:false,"group":2},
+                {name:"央行支持实施温州金改新12条金改提质扩面",fixed:false,"group":2},
+                {name:"库里阿里扎旧怨被重提铁扎:没想和他做朋友",fixed:false,"group":2},
+                {name:"ETF份额一周缩水16.4亿份蓝筹ETF瘦身快",fixed:false,"group":2},
+                {name:"农民工讨薪冲突中打死老板帮手庭审称后悔",fixed:false,"group":2},
+                {name:"沃森威巡征战三年才进美巡李昊桐暗示自己速度更快",fixed:false,"group":2},
+                {name:"李克强：去年没有采取短期强刺激措施",fixed:false,"group":2},
+                {name:"幼儿园70余名小孩戴口罩在地下室上课(图)",fixed:false,"group":2},
+                {name:"安徽村书记陪领导喝酒身亡多名涉事官员被调查",fixed:false,"group":2},
+                {name:"江苏苏州男子抗拆持刀刺死2人一审获刑8年",fixed:false,"group":2},
+                {name:"李克强：中国今年经济下行压力加大",fixed:false,"group":2},
+                {name:"汇控ADR报升两桶油报升内银走势不一",fixed:false,"group":2},
+                {name:"上交所：后续重点关注多伦股份是否变更证券简称",fixed:false,"group":2},
+                {name:"巴特勒复出公牛拍死黄蜂森林狼加时险胜爵士",fixed:false,"group":2},
+                {name:"郑商所修改风控和套保相关细则6月10日起执行",fixed:false,"group":2},
+                {name:"盖伊33分国王驱散狼群先发未上双太阳负老鹰",fixed:false,"group":2},
+                {name:"梅新育：降息可缓解经济下行压力防止通货紧缩",fixed:false,"group":2},
+                {name:"沣东新城注水牛留样肉检测水分超标",fixed:false,"group":2},
+                {name:"我国去年航空消费投诉同比减少近3成",fixed:false,"group":2},
+                {name:"国务院副总理汪洋：4个自贸试验区不搞政策攀比",fixed:false,"group":2},
+                {name:"苏媒析国安鲁能战全北异同为何国安能全身而退",fixed:false,"group":2},
+                {name:"习近平为何说耕地这件事“绝不能有闪失”",fixed:false,"group":2},
+                {name:"央行注册制效果将显信贷ABS发行规模有望达4000亿",fixed:false,"group":2},
+                {name:"勇士本以为西决对手是快船:并不是对火箭不敬",fixed:false,"group":2},
+                {name:"金海环境等四只新股18日将登陆上交所",fixed:false,"group":2},
+                {name:"哈登：绝对有信心赢第二战两大理念必须坚持",fixed:false,"group":2},
+                {name:"西宁特钢定增63.6亿还贷员工持股计划落地",fixed:false,"group":2},
+                {name:"平安银行一季度净利润56.29亿同比增长11.38%",fixed:false,"group":2},
+                {name:"证监会：张育军在上海会议上要求严控两融为虚假消息",fixed:false,"group":2},
+                {name:"中组部:向党组织软弱村和贫困村选派第一书记",fixed:false,"group":2},
+                {name:"北京能否多1支CBA球队需要重庆体育局点头",fixed:false,"group":2},
+                {name:"吉洛:把握好机会能踢泰达4-0不知何时遭遇上港",fixed:false,"group":2},
+                {name:"台湾台东附近海域发生3.7级地震震源深度9千米",fixed:false,"group":2},
+                {name:"女子2岁打针时针头断在体内27年后被取出",fixed:false,"group":2},
+                {name:"长安汽车去年净利同比增124%拟10派2.5元",fixed:false,"group":2},
+                {name:"国金通用上证50指数分级基金5月11日发售",fixed:false,"group":2},
+                {name:"於之莹手软错过一击制胜黑嘉嘉缓手致败(多谱)",fixed:false,"group":2},
+                {name:"毛大庆去职万科：三个误读与一个真相",fixed:false,"group":2},
+                {name:"康辉等40家云南旅行社被约谈：不合理低价游",fixed:false,"group":2},
+                {name:"南昌大学食堂吊顶掉落砸伤5名学生(图)",fixed:false,"group":2},
+                {name:"康跃科技投1.17亿元建汽油机涡轮增压器",fixed:false,"group":2},
+                {name:"中办国办：省级政府年底前公布权力清单",fixed:false,"group":2},
+                {name:"四川省委书记:十八大前部分干部热衷“抱大树”",fixed:false,"group":2},
+                {name:"马德里大师赛上半区赛果：纳达尔完胜伯蒂奇进决赛",fixed:false,"group":2},
+                {name:"抗震救灾志愿者墓地被迁园区疑建高价墓地",fixed:false,"group":2},
+                {name:"宏观面牵制有色金属绿肥红瘦",fixed:false,"group":2},
+                {name:"盗窃犯勇救八旬落水老人获赞去年刚假释出狱",fixed:false,"group":2},
+                {name:"徐绍史：发改委组织干部参观监狱开展警示教育",fixed:false,"group":2},
+                {name:"湖南邵东夜总会发生火灾已致2死5伤疑人为纵火",fixed:false,"group":2},
+                {name:"五大内银季绩基本原地踏步半日股价受压",fixed:false,"group":2},
+                {name:"新华社将对甘肃分社《半月谈》杂志社进行巡视",fixed:false,"group":2},
+                {name:"外媒：中国央行将SLF配额提升2200亿至3400亿元",fixed:false,"group":2},
+                {name:"波波:没帮TD晋级太难过会回来!因为想工作",fixed:false,"group":2},
+                {name:"刘鹤率中财办调研4月政治局会议或有重大经济信号",fixed:false,"group":2},
+                {name:"全国人大代表郑孝和:建议禁止屠宰猫狗",fixed:false,"group":2},
+                {name:"上海民防办公款旅游违规发补贴主任被追责",fixed:false,"group":2},
+                {name:"轿车司机疑将油门当成刹车冲入路边面包店(图)",fixed:false,"group":2},
+                {name:"海南白沙公安局副局长因通奸被调离公安队伍",fixed:false,"group":2},
+                {name:"朱炯：过早丢球打乱部署辽足没大牌但稳定性好",fixed:false,"group":2},
+                {name:"路透：中国金融业营改增拟10月1日起正式实施税率6%",fixed:false,"group":2},
+                {name:"高敬刚：输球责任在我亚泰已感到积分形式压力",fixed:false,"group":2},
+                {name:"妻子出轨丈夫敲诈情夫按发生关系次数索赔",fixed:false,"group":2},
+                {name:"乐视体育完成首轮8亿融资首富军团万达云锋基金背书",fixed:false,"group":2},
+                {name:"从WCBA争冠到无缘新赛季浙江女篮怎么了",fixed:false,"group":2},
+                {name:"成都的哥:专车司机玩着跑半个月超过我月收入",fixed:false,"group":2},
+                {name:"部分农村教师月薪不到2千暑假当小工补贴家用",fixed:false,"group":2}
+                          ];
+
+          		var edges = [
+                {source:0,target:185},
+                {source:0,target:204},
+                {source:0,target:389},
+                {source:0,target:430},
+                {source:0,target:494},
+                {source:1,target:42},
+                {source:1,target:51},
+                {source:1,target:162},
+                {source:1,target:175},
+                {source:1,target:183},
+                {source:1,target:188},
+                {source:1,target:209},
+                {source:1,target:224},
+                {source:1,target:291},
+                {source:1,target:342},
+                {source:1,target:368},
+                {source:1,target:378},
+                {source:1,target:400},
+                {source:1,target:430},
+                {source:1,target:434},
+                {source:1,target:453},
+                {source:1,target:462},
+                {source:1,target:489},
+                {source:1,target:521},
+                {source:2,target:51},
+                {source:2,target:102},
+                {source:2,target:126},
+                {source:2,target:175},
+                {source:2,target:183},
+                {source:2,target:188},
+                {source:2,target:209},
+                {source:2,target:217},
+                {source:2,target:278},
+                {source:2,target:291},
+                {source:2,target:342},
+                {source:2,target:354},
+                {source:2,target:368},
+                {source:2,target:378},
+                {source:2,target:389},
+                {source:2,target:413},
+                {source:2,target:430},
+                {source:2,target:434},
+                {source:2,target:444},
+                {source:2,target:446},
+                {source:2,target:488},
+                {source:2,target:489},
+                {source:2,target:506},
+                {source:2,target:528},
+                {source:3,target:56},
+                {source:3,target:102},
+                {source:3,target:126},
+                {source:3,target:128},
+                {source:3,target:185},
+                {source:3,target:227},
+                {source:3,target:278},
+                {source:3,target:291},
+                {source:3,target:350},
+                {source:3,target:365},
+                {source:3,target:417},
+                {source:3,target:425},
+                {source:3,target:426},
+                {source:3,target:430},
+                {source:3,target:453},
+                {source:3,target:497},
+                {source:3,target:521},
+                {source:3,target:531},
+                {source:4,target:51},
+                {source:4,target:76},
+                {source:4,target:102},
+                {source:4,target:116},
+                {source:4,target:175},
+                {source:4,target:183},
+                {source:4,target:185},
+                {source:4,target:199},
+                {source:4,target:204},
+                {source:4,target:209},
+                {source:4,target:278},
+                {source:4,target:291},
+                {source:4,target:350},
+                {source:4,target:354},
+                {source:4,target:368},
+                {source:4,target:430},
+                {source:4,target:489},
+                {source:4,target:498},
+                {source:4,target:521},
+                {source:4,target:522},
+                {source:5,target:56},
+                {source:5,target:66},
+                {source:5,target:188},
+                {source:5,target:217},
+                {source:5,target:378},
+                {source:5,target:434},
+                {source:5,target:494},
+                {source:5,target:522},
+                {source:6,target:430},
+                {source:6,target:494},
+                {source:7,target:51},
+                {source:7,target:169},
+                {source:7,target:209},
+                {source:7,target:294},
+                {source:7,target:365},
+                {source:7,target:381},
+                {source:7,target:423},
+                {source:8,target:42},
+                {source:8,target:51},
+                {source:8,target:76},
+                {source:8,target:116},
+                {source:8,target:126},
+                {source:8,target:128},
+                {source:8,target:217},
+                {source:8,target:262},
+                {source:8,target:294},
+                {source:8,target:350},
+                {source:8,target:417},
+                {source:8,target:434},
+                {source:8,target:521},
+                {source:8,target:531},
+                {source:9,target:42},
+                {source:9,target:56},
+                {source:9,target:62},
+                {source:9,target:217},
+                {source:9,target:270},
+                {source:9,target:291},
+                {source:9,target:350},
+                {source:9,target:430},
+                {source:9,target:434},
+                {source:9,target:446},
+                {source:9,target:489},
+                {source:9,target:521},
+                {source:10,target:51},
+                {source:10,target:56},
+                {source:10,target:169},
+                {source:10,target:185},
+                {source:10,target:245},
+                {source:10,target:350},
+                {source:10,target:354},
+                {source:10,target:400},
+                {source:10,target:425},
+                {source:10,target:446},
+                {source:10,target:528},
+                {source:11,target:297},
+                {source:11,target:342},
+                {source:11,target:434},
+                {source:11,target:453},
+                {source:12,target:56},
+                {source:12,target:57},
+                {source:12,target:341},
+                {source:12,target:413},
+                {source:12,target:425},
+                {source:12,target:430},
+                {source:12,target:490},
+                {source:13,target:56},
+                {source:13,target:209},
+                {source:13,target:270},
+                {source:13,target:291},
+                {source:13,target:434},
+                {source:13,target:505},
+                {source:14,target:42},
+                {source:14,target:62},
+                {source:14,target:66},
+                {source:14,target:126},
+                {source:14,target:162},
+                {source:14,target:169},
+                {source:14,target:227},
+                {source:14,target:262},
+                {source:14,target:291},
+                {source:14,target:297},
+                {source:14,target:350},
+                {source:14,target:381},
+                {source:14,target:400},
+                {source:14,target:413},
+                {source:14,target:415},
+                {source:14,target:423},
+                {source:14,target:425},
+                {source:14,target:426},
+                {source:14,target:430},
+                {source:14,target:434},
+                {source:14,target:444},
+                {source:14,target:446},
+                {source:14,target:462},
+                {source:14,target:488},
+                {source:14,target:505},
+                {source:14,target:521},
+                {source:14,target:522},
+                {source:14,target:528},
+                {source:15,target:350},
+                {source:15,target:413},
+                {source:15,target:497},
+                {source:15,target:506},
+                {source:16,target:51},
+                {source:16,target:57},
+                {source:16,target:62},
+                {source:16,target:116},
+                {source:16,target:126},
+                {source:16,target:162},
+                {source:16,target:183},
+                {source:16,target:185},
+                {source:16,target:188},
+                {source:16,target:199},
+                {source:16,target:204},
+                {source:16,target:209},
+                {source:16,target:217},
+                {source:16,target:227},
+                {source:16,target:245},
+                {source:16,target:262},
+                {source:16,target:291},
+                {source:16,target:294},
+                {source:16,target:297},
+                {source:16,target:331},
+                {source:16,target:341},
+                {source:16,target:350},
+                {source:16,target:354},
+                {source:16,target:365},
+                {source:16,target:389},
+                {source:16,target:413},
+                {source:16,target:415},
+                {source:16,target:417},
+                {source:16,target:423},
+                {source:16,target:425},
+                {source:16,target:426},
+                {source:16,target:430},
+                {source:16,target:434},
+                {source:16,target:446},
+                {source:16,target:453},
+                {source:16,target:462},
+                {source:16,target:488},
+                {source:16,target:490},
+                {source:16,target:497},
+                {source:16,target:505},
+                {source:16,target:506},
+                {source:16,target:528},
+                {source:17,target:126},
+                {source:17,target:331},
+                {source:17,target:342},
+                {source:19,target:66},
+                {source:19,target:102},
+                {source:19,target:209},
+                {source:19,target:224},
+                {source:19,target:342},
+                {source:19,target:425},
+                {source:19,target:446},
+                {source:19,target:497},
+                {source:19,target:522},
+                {source:20,target:56},
+                {source:20,target:128},
+                {source:20,target:183},
+                {source:20,target:209},
+                {source:20,target:270},
+                {source:20,target:294},
+                {source:20,target:430},
+                {source:20,target:434},
+                {source:21,target:185},
+                {source:22,target:185},
+                {source:22,target:209},
+                {source:22,target:291},
+                {source:22,target:342},
+                {source:22,target:368},
+                {source:22,target:413},
+                {source:22,target:444},
+                {source:22,target:490},
+                {source:23,target:430},
+                {source:23,target:497},
+                {source:24,target:42},
+                {source:24,target:116},
+                {source:24,target:175},
+                {source:24,target:183},
+                {source:24,target:209},
+                {source:24,target:350},
+                {source:24,target:426},
+                {source:24,target:434},
+                {source:24,target:498},
+                {source:24,target:528},
+                {source:25,target:76},
+                {source:25,target:342},
+                {source:25,target:434},
+                {source:25,target:446},
+                {source:25,target:490},
+                {source:26,target:42},
+                {source:26,target:76},
+                {source:26,target:430},
+                {source:26,target:434},
+                {source:26,target:489},
+                {source:26,target:521},
+                {source:27,target:102},
+                {source:27,target:227},
+                {source:27,target:262},
+                {source:27,target:378},
+                {source:27,target:417},
+                {source:27,target:434},
+                {source:27,target:497},
+                {source:27,target:521},
+                {source:28,target:126},
+                {source:28,target:183},
+                {source:28,target:199},
+                {source:28,target:341},
+                {source:28,target:444},
+                {source:28,target:446},
+                {source:28,target:453},
+                {source:28,target:489},
+                {source:28,target:498},
+                {source:28,target:521},
+                {source:28,target:522},
+                {source:30,target:51},
+                {source:30,target:57},
+                {source:30,target:116},
+                {source:30,target:128},
+                {source:30,target:162},
+                {source:30,target:169},
+                {source:30,target:185},
+                {source:30,target:188},
+                {source:30,target:224},
+                {source:30,target:245},
+                {source:30,target:278},
+                {source:30,target:291},
+                {source:30,target:294},
+                {source:30,target:331},
+                {source:30,target:341},
+                {source:30,target:342},
+                {source:30,target:350},
+                {source:30,target:415},
+                {source:30,target:430},
+                {source:30,target:434},
+                {source:30,target:446},
+                {source:30,target:462},
+                {source:30,target:494},
+                {source:30,target:521},
+                {source:31,target:126},
+                {source:31,target:183},
+                {source:31,target:262},
+                {source:31,target:341},
+                {source:31,target:381},
+                {source:31,target:389},
+                {source:31,target:413},
+                {source:31,target:434},
+                {source:31,target:498},
+                {source:31,target:506},
+                {source:31,target:531},
+                {source:32,target:430},
+                {source:32,target:434},
+                {source:33,target:42},
+                {source:33,target:51},
+                {source:33,target:57},
+                {source:33,target:62},
+                {source:33,target:66},
+                {source:33,target:102},
+                {source:33,target:126},
+                {source:33,target:162},
+                {source:33,target:175},
+                {source:33,target:199},
+                {source:33,target:204},
+                {source:33,target:209},
+                {source:33,target:224},
+                {source:33,target:227},
+                {source:33,target:245},
+                {source:33,target:262},
+                {source:33,target:270},
+                {source:33,target:291},
+                {source:33,target:297},
+                {source:33,target:331},
+                {source:33,target:342},
+                {source:33,target:350},
+                {source:33,target:365},
+                {source:33,target:368},
+                {source:33,target:381},
+                {source:33,target:400},
+                {source:33,target:413},
+                {source:33,target:415},
+                {source:33,target:417},
+                {source:33,target:423},
+                {source:33,target:425},
+                {source:33,target:426},
+                {source:33,target:430},
+                {source:33,target:434},
+                {source:33,target:446},
+                {source:33,target:453},
+                {source:33,target:462},
+                {source:33,target:488},
+                {source:33,target:489},
+                {source:33,target:490},
+                {source:33,target:498},
+                {source:33,target:505},
+                {source:33,target:521},
+                {source:33,target:531}
+                     ];
+
+          		var force = d3.layout.force()
+          				.nodes(nodes)		//指定节点数组
+          				.links(edges)		//指定连线数组
+          				.size([width,height])	//指定范围
+          				.linkDistance(100)	//指定连线长度
+          				.charge(-300)
+                  ;	//相互之间的作用力
+
+          		force.start();	//开始作用
+
+          		//添加连线
+          		var svg_edges = svg.selectAll("line")
+          							.data(edges)
+          							.enter()
+          							.append("line")
+          							.style("stroke","#99d8c9")
+          							.style("stroke-width",2);
+
+          		var color = d3.scale.category20();
+
+      console.log(color);
+              var voronoi = d3.geom.voronoi()
+      .x(function(d) { return d.x; })
+      .y(function(d) { return d.y; })
+      .clipExtent([[0, 0], [width, height]]);
+
+      var node = svg.selectAll(".node")
+            .data(nodes)
+          .enter().append("g")
+            .attr("class", "node")
+            .call(force.drag);
+
+        var circle = node.append("circle")
+            .attr("r",function(d){ return d.weight/2; })
+            .style("fill", function(d) {if (d.group==1)
+                                            {return "#2ca25f" }
+                                        else
+                                            {return "#af8dc3"}});
+
+        var label = node.append("text")
+            .attr("dy", ".35em")
+            .text(function(d) { return d.name; });
+
+
+
+
+
+          /*		//添加描述节点的文字
+          		var svg_texts = svg.selectAll("text")
+          							.data(nodes)
+          							.enter()
+          							.append("text")
+          							.style("fill", "black")
+          							.attr("dx", 20)
+          							.attr("dy", 8)
+          							.text(function(d){
+          								return d.name;
+          							});*/
+
+
+          		force.on("tick", function(){	//对于每一个时间间隔
+                var angle = 2*Math.PI/2;
+                var intensity = 200;
+          			 //更新连线坐标
+          			 svg_edges.attr("x1",function(d){ return d.source.x; })
+          			 		.attr("y1",function(d){ return d.source.y; })
+          			 		.attr("x2",function(d){
+                                             if (d.group==1)
+                                                {return d.target.x }
+                                             else
+                                                {return d.target.x+intensity*Math.cos(angle*2)}
+                                          })
+          			 		.attr("y2",function(d){
+                                             if (d.group==1)
+                                                {return d.target.y }
+                                              else
+                                                {return d.target.y+intensity*Math.sin(angle*2)}
+                                              });
+
+          			 //更新节点坐标
+
+      circle
+          .attr("cx", function(d) { if (d.group==1)
+                                          {return d.x }
+                                      else
+                                          {return d.x+intensity*Math.cos(angle*2)}
+                                         })
+          .attr("cy", function(d) {  if (d.group==1)
+                                          {return d.y }
+                                      else
+                                          {return d.y+intensity*Math.sin(angle*2)}
+                                          });
+
+      label
+          .attr("x", function(d) { return d.x + 12; })
+          .attr("y", function(d) { return d.y; });
+
+          			 //更新文字坐标
+                 /*
+          			 svg_texts.attr("x", function(d){ return d.x; })
+          			 	.attr("y", function(d){ return d.y; });*/
+          		});
+  /*
+    svg.append("circle")
+          .attr("class","point")
+          .attr("cx",proPeking[0])
+          .attr("cy",proPeking[1])
+          .attr("r",8)
+          .attr("fill", "blue");
+  */
+	});
+
+</script>
+
+</body>
+</html>
